@@ -1,0 +1,4 @@
+# -*- python -*-
+
+files_for_service('ejabberd', '/etc/ejabberd/ejabberd.conf')
+check_service_by_pidfile('ejabberd', '/var/run/ejabberd.pid')

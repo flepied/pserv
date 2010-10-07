@@ -1,0 +1,13 @@
+Source: adminkit-@pkg@
+Section: pserv
+Priority: extra
+Maintainer: Frederic Lepied <fred@lepied.com>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.8.3
+Homepage: http://www.lepied.com/pserv/
+
+Package: adminkit-@pkg@
+Architecture: all
+Depends: ${misc:Depends}, adminkit, @pkg@
+Description: configuration for @pkg@ in the pserv project
+ Adminkit rules and files to configure @pkg@ in the pserv project.
