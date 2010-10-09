@@ -1,0 +1,5 @@
+# -*- python -*-
+
+add_files('/etc/pam.d/common-account')
+add_files('/etc/pam.d/common-auth')
+add_files('/etc/libpam-mysql.conf')
