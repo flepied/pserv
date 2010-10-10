@@ -1,0 +1,123 @@
+#!/home/fred/work/pserv/env/bin/python -u
+#---------------------------------------------------------------
+# Project         : pserv
+# File            : ejabberd.auth
+# Author          : Frederic Lepied
+# Created On      : Fri Mar 19 14:06:48 2010
+# Purpose         : ejabberd auth against django auth system.
+#---------------------------------------------------------------
+
+import sys, logging, struct, hashlib, os
+from struct import *
+
+LOGFILE = '/var/log/ejabberd/extauth.log'
+
+TOPDIR = os.path.dirname(__file__)
+
+sys.stderr = open(LOGFILE, 'a')
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(levelname)s %(message)s',
+                    filename=LOGFILE,
+                    filemode='a')
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+sys.path.append(TOPDIR)
+
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+
+class EjabberdInputError(Exception):
+    def __init__(self, value):
+        self.value = value
+        
+    def __str__(self):
+        return repr(self.value)
+
+def strip_chat(host):
+    if host[0:5] == 'chat.':
+        return host[5:]
+    else:
+        return host
+    
+def isuser(in_user, in_host):
+    try:
+        #User.objects.get(username='%s@%s' % (in_user, strip_chat(in_host)))
+        User.objects.get(username=in_user)
+        return True
+    except User.DoesNotExist:
+        return False
+
+def auth(in_user, in_host, password):
+    username = '%s@%s' % (in_user, strip_chat(in_host))
+    #user = authenticate(username=username, password=password)
+    user = authenticate(username=in_user, password=password)
+    if user is not None:
+        if user.is_active:
+            logging.debug("You provided a correct username and password for %s!" % username)
+            return True
+        else:
+            logging.debug("%s account has been disabled!" % username)
+    else:
+        logging.debug("Your username %s and password were incorrect." % username)
+    return False
+
+def ejabberd_in():
+    logging.debug("trying to read 2 bytes from ejabberd:")
+    try:
+        input_length = sys.stdin.read(2)
+    except IOError:
+        logging.debug("ioerror")
+    if len(input_length) is not 2:
+        logging.debug("ejabberd sent us wrong things!")
+        raise EjabberdInputError('Wrong input from ejabberd!')
+    logging.debug('got 2 bytes via stdin: %s' % input_length)
+    (size,) = unpack('>h', input_length)
+    logging.debug('size of data: %i' % size)
+    income = sys.stdin.read(size).split(':')
+    logging.debug("incoming data: %s" % income)
+    return income
+
+def genanswer(bool):
+    answer = 0
+    if bool:
+        answer = 1
+    token = pack('>hh', 2, answer)
+    return token
+
+def ejabberd_out(bool):
+    logging.debug("Ejabberd gets: %s" % bool)
+    token = genanswer(bool)
+    logging.debug("sent %d bytes: %#x %#x %#x %#x" % (len(token), ord(token[0]), ord(token[1]), ord(token[2]), ord(token[3])))
+    sys.stdout.write(token)
+    sys.stdout.flush()
+
+def log_result(op, in_user, bool):
+    if bool:
+        logging.info("%s successful for %s"%(op, in_user))
+    else:
+        logging.info("%s unsuccessful for %s"%(op, in_user))
+        
+while True:
+    logging.debug("start of infinite loop")
+    try:
+        ejab_request = ejabberd_in()
+    except EjabberdInputError, inst:
+        logging.info("Exception occured: %s", inst)
+        break
+    logging.debug('operation: %s'%(ejab_request[0]))
+    op_result = False
+    if ejab_request[0] == "auth":
+        op_result = auth(ejab_request[1], ejab_request[2], ejab_request[3])
+    elif ejab_request[0] == "isuser":
+        op_result = isuser(ejab_request[1], ejab_request[2])
+    elif ejab_request[0] == "setpass":
+        pass
+    else:
+        logging.error('unknown request %s' % ejab_request[0])
+    ejabberd_out(op_result)
+    log_result(ejab_request[0], ejab_request[1], op_result)
+    
+logging.debug("end of infinite loop")
+logging.info('extauth script terminating')
+
+# ejabberd.auth ends here
