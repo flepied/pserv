@@ -14,7 +14,8 @@
 # pam-auth-update(8) for details.
 
 # here are the per-package modules (the "Primary" block)
-auth    [success=1 default=ignore]     pam_mysql.so config_file=/etc/libpam-mysql.conf
+auth    sufficient      pam_unix.so nullok_secure try_first_pass
+auth    sufficient     pam_mysql.so config_file=/etc/libpam-mysql.conf
 # here's the fallback if no module succeeds
 auth	requisite			pam_deny.so
 # prime the stack with a positive return value if there isn't one already;
