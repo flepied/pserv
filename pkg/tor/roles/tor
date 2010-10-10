@@ -1,0 +1,4 @@
+# -*- python -*-
+
+add_files('/etc/apt/sources.list.d/tor.list')
+files_for_service('polipo', '/etc/polipo/config')
