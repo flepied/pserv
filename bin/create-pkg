@@ -12,7 +12,7 @@ tar c -C pkg/$pkg .|tar x -C build/$dest
 cp -r skel/* build/$dest/
 rm build/$dest/debian/*.ex build/$dest/debian/*.EX
 
-perl -p -i -e "s/\@pkg\@/$pkg/g;s/\@version\@/$version/g" build/$dest/debian/control build/$dest/debian/changelog
+perl -p -i -e "s/\@pkg\@/$pkg/g;s/\@version\@/$version/g;s/\@extradeps\@/$extradeps/g" build/$dest/debian/control build/$dest/debian/changelog
 cd build/$dest
 dpkg-buildpackage -rfakeroot
 
