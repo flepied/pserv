@@ -1,0 +1,9 @@
+# -*- python -*-
+
+add_var('router', '192.168.200.254')
+add_var('network', '192.168.200')
+add_to_list('fixedaddresses', ('moustix', '00:19:d1:3d:91:ee', '192.168.200.51'))
+add_to_list('fixedaddresses', ('storage', '00:1c:c0:31:60:28', '192.168.200.14'))
+add_to_list('fixedaddresses', ('ims', '00:e0:81:b4:83:6c', '192.168.200.21'))
+
+files_for_service('dhcp3-server', '/etc/dhcp3/dhcpd.conf')
