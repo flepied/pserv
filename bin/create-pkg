@@ -1,6 +1,7 @@
 #!/bin/sh
 
 pkg="$1"
+dep="$pkg"
 
 . pkg/$pkg/config
 
@@ -8,11 +9,11 @@ dest="adminkit-$pkg-$version"
 
 rm -rf build/$dest
 mkdir build/$dest
-tar c -C pkg/$pkg .|tar x -C build/$dest
 cp -r skel/* build/$dest/
+tar c -C pkg/$pkg .|tar x -C build/$dest
 rm build/$dest/debian/*.ex build/$dest/debian/*.EX
 
-perl -p -i -e "s/\@pkg\@/$pkg/g;s/\@version\@/$version/g;s/\@extradeps\@/$extradeps/g" build/$dest/debian/control build/$dest/debian/changelog
+perl -p -i -e "s/\@pkg\@/$pkg/g;s/\@version\@/$version/g;s/\@extradeps\@/$extradeps/g;s/\@dep\@/$dep/g" build/$dest/debian/control build/$dest/debian/changelog
 cd build/$dest
 dpkg-buildpackage -rfakeroot
 
