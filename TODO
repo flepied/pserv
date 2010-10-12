@@ -1,0 +1,15 @@
+-*- outline -*-
+
+* TODO for the personal server project
+
+** features
+
+*** backup
+*** name server
+*** dhcp server
+
+** packages
+
+*** named
+*** dhcpd
+
