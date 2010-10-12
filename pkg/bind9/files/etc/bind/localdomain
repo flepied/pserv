@@ -1,0 +1,28 @@
+;
+; Zone file for {{ domainname }}
+;
+; The full zone file
+;
+$TTL 3D
+@       3600000 IN      SOA     www.{{ domainname }}. hostmaster.{{ domainname }}. (
+                          2010101203      ; serial, todays date + todays serial #
+                          48H             ; refresh
+                          2H              ; retry
+                          4W              ; expire
+                          86400 )         ; minimum
+;
+                NS      www.{{ domainname }}.       ; Inet Address of name server
+;                MX      10 smtp.{{ domainname }}.    ; Primary Mail Exchanger
+                TXT     "{{ domainname }} Network"
+;
+www	        A       {{ ipv4 }}
+;                MX      10 mail
+
+xmpp		A       {{ ipv4 }}
+;*               CNAME  www
+
+_xmpp-client._tcp.{{ domainname }}. 86400 IN SRV 0 5 5222 xmpp.{{ domainname }}.
+_jabber._tcp.{{ domainname }}. 86400 IN SRV 0 5 5222 xmpp.{{ domainname }}.
+_xmpp-server._tcp.{{ domainname }}. 86400 IN SRV 0 5 5269 xmpp.{{ domainname }}.
+_xmpp-server._tcp.conference.{{ domainname }}. 86400 IN SRV 0 5 5269 xmpp.{{ domainname }}.
+
