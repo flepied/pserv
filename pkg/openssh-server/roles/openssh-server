@@ -1,5 +1,3 @@
 # -*- python -*-
 
 add_to_list('ports', 22)
-
-print 'ports', get_var('ports')

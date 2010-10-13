@@ -2,6 +2,5 @@
 
 files_for_service('ejabberd', '/etc/ejabberd/ejabberd.cfg')
 check_service_by_pidfile('ejabberd', '/var/run/ejabberd/ejabberd.pid')
-add_var('adminname', 'fred')
 add_to_list('ports', 5222)
 add_to_list('ports', 5269)

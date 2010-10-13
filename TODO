@@ -5,11 +5,12 @@
 ** features
 
 *** backup
-*** name server
-*** dhcp server
 
 ** packages
 
-*** named
-*** dhcpd
+** implementation
 
+- add a configuration file which will contain all the variables that
+  need to be set for the services to work. The configuration variables
+  have to be described and typed to be able to create an UI to manage
+  the variables.

@@ -1,4 +1,3 @@
 # -*- python -*-
 
-add_var('ipv4', '192.168.200.21')
 files_for_service('bind9', '/etc/bind/named.conf.local', '/etc/bind/localdomain')
