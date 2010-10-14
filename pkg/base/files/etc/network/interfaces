@@ -1,0 +1,8 @@
+auto lo
+iface lo inet loopback
+
+auto {{ interface }}
+iface {{ interface }} inet static
+     address {{ ipv4 }}
+     gateway {{ router }}
+     netmask 255.255.255.0

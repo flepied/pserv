@@ -1,0 +1,3 @@
+# -*- python -*-
+
+files_for_service('networking', '/etc/network/interfaces')
