@@ -1,3 +1,5 @@
 #!/bin/sh
 
-/usr/share/adminkit/update-adminkit.conf
+if [ -x /usr/share/adminkit/update-adminkit.conf ]; then
+    /usr/share/adminkit/update-adminkit.conf
+fi
