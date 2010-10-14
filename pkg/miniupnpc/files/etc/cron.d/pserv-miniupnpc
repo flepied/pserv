@@ -1,0 +1,7 @@
+# /etc/cron.d/anacron: crontab entries for the anacron package
+
+SHELL=/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+*/5 *    * * *   root	test -x /etc/init.d/pserv-miniupnpc && /usr/sbin/invoke-rc.d pserv-miniupnpc check
+

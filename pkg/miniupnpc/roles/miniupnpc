@@ -1,3 +1,4 @@
 # -*- python -*-
 
-add_files('/etc/default/adminkit-miniupnpc')
+files_for_service('pserv-miniupnpc', '/etc/default/pserv-miniupnpc')
+add_files('/etc/cron.d/pserv-miniupnpc')

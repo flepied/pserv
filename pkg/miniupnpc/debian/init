@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Example init.d script with LSB support.
 #
@@ -23,14 +23,14 @@
 # Suite 330, Boston, MA 02111-1307 USA
 #
 ### BEGIN INIT INFO
-# Provides:          adminkit-miniupnpc
+# Provides:          pserv-miniupnpc
 # Required-Start:    $network $local_fs
 # Required-Stop:
 # Should-Start:      $named
 # Should-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: <Enter a short description of the sortware>
+# Short-Description: redirect ports on the UPnP gateway
 # Description:       <Enter a long description of the software>
 #                    <...>
 #                    <...>
@@ -38,10 +38,10 @@
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-DAEMON=/usr/bin/upnpc # Introduce the server's location here
-NAME=adminkit-miniupnpc # Introduce the short server's name here
+DAEMON=/usr/bin/upnpc	    # Introduce the server's location here
+NAME=pserv-miniupnpc	    # Introduce the short server's name here
 DESC="Redirection of ports" # Introduce a short description here
-LOGDIR=/var/log/adminkit-miniupnpc # Log directory to use
+LOGDIR=/var/log		    # Log directory to use
 PORTS=
 
 PIDFILE=/var/run/$NAME.pid
@@ -69,8 +69,6 @@ DIETIME=10              # Time to wait for the server to die, in seconds
                         # when it actually did)
 
 LOGFILE=$LOGDIR/$NAME.log  # Server logfile
-#DAEMONUSER=skel   # Users to run the daemons as. If this value
-                        # is set start-stop-daemon will chuid the server
 
 # Include defaults if available
 if [ -f /etc/default/$NAME ] ; then
@@ -86,7 +84,7 @@ action() {
 	for port in $PORTS; do
 	    args="$args $port tcp"
 	done
-	$DAEMON $opt $args
+	$DAEMON $opt $args >> $LOGFILE
     fi
 }
 
@@ -99,8 +97,36 @@ stop_server() {
 }
 
 status_server() {
-    $DAEMON -l
+    if check_server no; then
+        echo "ports ${PORTS}redirected."
+    else
+        echo "ports ${PORTS}not redirected."
+        exit 1
+    fi
 }
+
+check_server() {
+    temp=`tempfile`
+    do_restart=0
+    $DAEMON -l 2>&1|fgrep TCP > $temp || do_restart=1
+    for port in $PORTS; do
+	if ! fgrep -q ":$port " $temp; then
+	    do_restart=1
+	    break
+	fi
+    done
+    rm -f $temp
+    if [ $do_restart = 1 ]; then
+	if [ -z "$1" ]; then
+	    start_server
+	    return $?
+	else
+	    return 1
+	fi
+    fi
+    return 0
+}
+
 
 case "$1" in
   start)
@@ -141,15 +167,19 @@ case "$1" in
 	status_server
         ;;
 
+  check)
+	check_server
+	exit $?
+	;;
+
   # Use this if the daemon cannot reload
   reload)
-        log_warning_msg "Reloading $NAME daemon: not implemented, as the daemon"
-        log_warning_msg "cannot re-read the config file (use restart)."
+	$0 start
         ;;
 
   *)
         N=/etc/init.d/$NAME
-        echo "Usage: $N {start|stop|force-stop|restart|force-reload|status}" >&2
+        echo "Usage: $N {start|stop|force-stop|restart|force-reload|reload|check|status}" >&2
         exit 1
         ;;
 esac
