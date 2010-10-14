@@ -2,6 +2,7 @@
 
 pkg="$1"
 dep="$pkg"
+prefix=pserv
 
 . pkg/$pkg/config
 
@@ -13,8 +14,15 @@ cp -r skel/* build/$dest/
 tar c -C pkg/$pkg .|tar x -C build/$dest
 rm build/$dest/debian/*.ex build/$dest/debian/*.EX
 
-perl -p -i -e "s/\@pkg\@/$pkg/g;s/\@version\@/$version/g;s/\@extradeps\@/$extradeps/g;s/\@dep\@/$dep/g" build/$dest/debian/control build/$dest/debian/changelog
+perl -p -i -e "s/\@pkg\@/$pkg/g;s/\@version\@/$version/g;s/\@extradeps\@/$extradeps/g;s/\@dep\@/$dep/g;s/\@prefix\@/$prefix/g" build/$dest/debian/control build/$dest/debian/changelog
 cd build/$dest
+cd debian
+for f in init; do
+    if [ -f $f ]; then
+	mv $f pserv-$pkg.$f
+    fi
+done
+cd ..
 dpkg-buildpackage -rfakeroot
 
 # create-pkg ends here

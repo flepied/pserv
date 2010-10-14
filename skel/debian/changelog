@@ -1,4 +1,4 @@
-adminkit-@pkg@ (@version@) unstable; urgency=low
+@prefix@-@pkg@ (@version@) unstable; urgency=low
 
   * Initial Release.
 
