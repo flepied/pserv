@@ -19,6 +19,9 @@ www	        A       {{ ipv4 }}
 ;                MX      10 mail
 
 xmpp		A       {{ ipv4 }}
+{% for name, addr, ip in fixedaddresses %}
+{{ name }}   	A       {{ ip }}
+{% endfor %}
 ;*               CNAME  www
 
 _xmpp-client._tcp.{{ domainname }}. 86400 IN SRV 0 5 5222 xmpp.{{ domainname }}.
