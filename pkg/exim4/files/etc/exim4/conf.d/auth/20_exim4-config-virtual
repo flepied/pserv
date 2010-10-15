@@ -1,0 +1,20 @@
+{% raw %}plain:
+ driver = plaintext
+ public_name = PLAIN
+ server_prompts = :
+ server_condition = "${if and { \
+                      {!eq{$2}{}} \
+                      {!eq{$3}{}} \
+                      {crypteq{$3}{\\\{sha1\\\}${lookup mysql{SELECT password FROM auth_user WHERE email = '$2@{% endraw %}{{ domainname }}{% raw %}'}{$value}fail}} }} {yes}{no}}"
+ server_set_id = $2
+
+login:
+  driver = plaintext
+  public_name = LOGIN
+  server_prompts = "Username:: : Password::"
+  server_condition = "${if and { \
+                      {!eq{$1}{}} \
+                      {!eq{$2}{}} \
+                      {crypteq{$2}{\\\{sha1\\\}${lookup mysql{SELECT password FROM auth_user WHERE email = '$1@{% endraw %}{{ domainname }}{% raw %}' }{$value}fail}} }} {yes}{no}}"
+  server_set_id = $1
+{% endraw %}

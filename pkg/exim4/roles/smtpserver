@@ -1,0 +1,4 @@
+# -*- python -*-
+
+files_for_service('exim4', '/etc/exim4/update-exim4.conf.conf', '/etc/exim4/conf.d/main/20_exim4-config_virtual', '/etc/exim4/conf.d/auth/20_exim4-config-virtual', '/etc/exim4/conf.d/auth/30_exim4-config_examples')
+add_to_list('ports', 25)
