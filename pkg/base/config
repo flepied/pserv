@@ -1,2 +1,3 @@
 version=0.1
 dep=" "
+basedep=adminkit
