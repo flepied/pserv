@@ -1,0 +1,6 @@
+@prefix@-@pkg@ (0.1) unstable; urgency=low
+
+  * first version
+
+ -- Frederic Lepied <fred@lepied.com>  Sun, 17 Oct 2010 20:44:19 +0200
+
