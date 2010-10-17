@@ -3,6 +3,7 @@
 pkg="$1"
 dep="$pkg"
 prefix=pserv
+basedep=pserv-base
 
 . pkg/$pkg/config
 
@@ -14,7 +15,7 @@ cp -r skel/* build/$dest/
 tar c -C pkg/$pkg .|tar x -C build/$dest
 rm build/$dest/debian/*.ex build/$dest/debian/*.EX
 
-perl -p -i -e "s/\@pkg\@/$pkg/g;s/\@version\@/$version/g;s/\@extradeps\@/$extradeps/g;s/\@dep\@/$dep/g;s/\@prefix\@/$prefix/g" build/$dest/debian/control build/$dest/debian/changelog
+perl -p -i -e "s/\@pkg\@/$pkg/g;s/\@version\@/$version/g;s/\@extradeps\@/$extradeps/g;s/\@dep\@/$dep/g;s/\@prefix\@/$prefix/g;s/\@basedep\@/$basedep/g" build/$dest/debian/control build/$dest/debian/changelog
 cd build/$dest
 cd debian
 for f in init; do
