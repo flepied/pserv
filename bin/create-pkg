@@ -5,18 +5,24 @@ dep="$pkg"
 prefix=pserv
 basedep=pserv-base
 
-. pkg/$pkg/config
+if [ -r pkg/$pkg/config ]; then
+    . pkg/$pkg/config
+fi
 
-dest="adminkit-$pkg-$version"
+dest="$prefix-$pkg"
 
 rm -rf build/$dest
 mkdir build/$dest
 cp -r skel/* build/$dest/
 tar c -C pkg/$pkg .|tar x -C build/$dest
 rm build/$dest/debian/*.ex build/$dest/debian/*.EX
-version=`dpkg-parsechangelog -l build/$dest/debian/changelog| grep ^Version:|cut -d\  -f2`
 
-perl -p -i -e "s/\@pkg\@/$pkg/g;s/\@version\@/$version/g;s/\@extradeps\@/$extradeps/g;s/\@dep\@/$dep/g;s/\@prefix\@/$prefix/g;s/\@basedep\@/$basedep/g" build/$dest/debian/control build/$dest/debian/changelog
+perl -p -i -e "s/\@pkg\@/$pkg/g;s/\@extradeps\@/$extradeps/g;s/\@dep\@/$dep/g;s/\@prefix\@/$prefix/g;s/\@basedep\@/$basedep/g" build/$dest/debian/control build/$dest/debian/changelog
+
+version=`dpkg-parsechangelog -lbuild/$dest/debian/changelog| grep ^Version:|cut -d\  -f2`
+mv build/$dest build/$dest-$version
+dest="$dest-$version"
+
 cd build/$dest
 cd debian
 for f in init; do
