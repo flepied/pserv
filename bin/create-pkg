@@ -11,7 +11,7 @@ fi
 
 dest="$prefix-$pkg"
 
-rm -rf build/$dest
+rm -rf build/$dest build/$dest-*
 mkdir build/$dest
 cp -r skel/* build/$dest/
 tar c -C pkg/$pkg .|tar x -C build/$dest
