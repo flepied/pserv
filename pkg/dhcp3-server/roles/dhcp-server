@@ -1,3 +1,4 @@
 # -*- python -*-
 
 files_for_service('dhcp3-server', '/etc/dhcp3/dhcpd.conf')
+check_service_by_pidfile('dhcp3-server', '/var/run/dhcp3-server/dhcpd.pid')

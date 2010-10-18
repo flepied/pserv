@@ -1,3 +1,9 @@
+@prefix@-@pkg@ (0.2) unstable; urgency=low
+
+  * add helper functions
+
+ -- Frederic Lepied <fred@lepied.com>  Mon, 18 Oct 2010 21:18:10 +0200
+
 @prefix@-@pkg@ (0.1) unstable; urgency=low
 
   * first version

@@ -1,3 +1,7 @@
 # -*- python -*-
 
 files_for_service('networking', '/etc/network/interfaces')
+add_files('/etc/mailname')
+
+if get_var('mailname') == None:
+    add_var('mailname', get_var('domainname'))

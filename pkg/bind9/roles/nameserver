@@ -1,3 +1,4 @@
 # -*- python -*-
 
 files_for_service('bind9', '/etc/bind/named.conf.local', '/etc/bind/localdomain')
+check_service_by_pidfile('bind9', '/var/run/named/named.pid')

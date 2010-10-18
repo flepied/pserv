@@ -4,6 +4,8 @@ add_files('/etc/apt/sources.list.d/tor.list')
 files_for_service('polipo', '/etc/polipo/config')
 run_once('gpg --keyserver keys.gnupg.net --recv 886DDD89 && gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -')
 files_for_service('tor', '/etc/tor/torrc')
+check_service_by_pidfile('polipo', '/var/run/polipo/polipo.pid')
+check_service_by_pidfile('tor', '/var/run/tor/tor.pid')
 
 if get_var('torrelay') == None:
     add_var('torrelay', False)
