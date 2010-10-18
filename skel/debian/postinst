@@ -1,5 +1,5 @@
 #!/bin/sh
 
 if [ -x /usr/share/adminkit/update-adminkit.conf ]; then
-    /usr/share/adminkit/update-adminkit.conf
+    /usr/share/adminkit/update-adminkit.conf || :
 fi
