@@ -1,0 +1,5 @@
+# -*- python -*-
+
+files_for_service('spamassassin', '/etc/default/spamassassin')
+files_for_service('exim4', '/etc/exim4/sa-exim.conf')
+check_service_by_pidfile('spamassassin', '/var/run/spamd.pid')
