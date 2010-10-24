@@ -1,0 +1,5 @@
+# -*- python -*-
+
+files_for_service('dovecot', '/etc/dovecot/dovecot.conf', '/etc/dovecot/dovecot-sql.conf')
+add_to_list('ports', 993)
+check_service_by_pidfile('dovecot', '/var/run/dovecot/master.pid')
