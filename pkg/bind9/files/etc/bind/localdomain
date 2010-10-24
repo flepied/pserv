@@ -12,13 +12,15 @@ $TTL 3D
                           86400 )         ; minimum
 ;
                 NS      www.{{ domainname }}.       ; Inet Address of name server
-;                MX      10 smtp.{{ domainname }}.    ; Primary Mail Exchanger
+                MX      10 smtp.{{ domainname }}.    ; Primary Mail Exchanger
                 TXT     "{{ domainname }} Network"
 ;
 www	        A       {{ ipv4 }}
 ;                MX      10 mail
 
 xmpp		A       {{ ipv4 }}
+imap		A       {{ ipv4 }}
+smtp		A       {{ ipv4 }}
 {% for name, addr, ip in fixedaddresses %}
 {{ name }}   	A       {{ ip }}
 {% endfor %}
