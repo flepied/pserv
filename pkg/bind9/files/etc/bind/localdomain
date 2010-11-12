@@ -21,10 +21,16 @@ www	        A       {{ ipv4 }}
 xmpp		A       {{ ipv4 }}
 imap		A       {{ ipv4 }}
 smtp		A       {{ ipv4 }}
-{% for name, addr, ip in fixedaddresses %}
+{% for name, ip, addr in fixedaddresses %}
 {{ name }}   	A       {{ ip }}
 {% endfor %}
 ;*               CNAME  www
+
+{% if httpproxy is defined %}
+wpad     IN     A      {{ ipv4 }}
+         IN     TXT    "service:wpad:!http://wpad.{{ domainname }}/wpad.dat"
+wpad.tcp IN     SRV    0 0 80 wpad.{{ domainname }}.
+{% endif %}
 
 _xmpp-client._tcp.{{ domainname }}. 86400 IN SRV 0 5 5222 xmpp.{{ domainname }}.
 _jabber._tcp.{{ domainname }}. 86400 IN SRV 0 5 5222 xmpp.{{ domainname }}.
