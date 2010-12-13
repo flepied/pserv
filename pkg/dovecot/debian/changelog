@@ -1,3 +1,15 @@
+@prefix@-@pkg@ (0.3) unstable; urgency=low
+
+  * fix config to rely on pam settings
+
+ -- Frederic Lepied <fred@lepied.com>  Sun, 12 Dec 2010 22:36:38 +0100
+
+@prefix@-@pkg@ (0.2) unstable; urgency=low
+
+  * comment sieve section in config file
+
+ -- Frederic Lepied <fred@lepied.com>  Sat, 20 Nov 2010 21:14:48 +0100
+
 @prefix@-@pkg@ (0.1) unstable; urgency=low
 
   * first version
