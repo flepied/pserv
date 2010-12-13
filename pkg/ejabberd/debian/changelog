@@ -1,3 +1,9 @@
+@prefix@-@pkg@ (0.2) unstable; urgency=low
+
+  * use an xmppcertifle variable because we can't use the same cert
+
+ -- Frederic Lepied <fred@lepied.com>  Mon, 01 Nov 2010 21:47:28 +0100
+
 @prefix@-@pkg@ (0.1) unstable; urgency=low
 
   * first version
