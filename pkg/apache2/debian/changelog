@@ -1,3 +1,9 @@
+@prefix@-@pkg@ (0.3) unstable; urgency=low
+
+  * install wpad.conf in site-enabled
+
+ -- Frederic Lepied <fred@lepied.com>  Mon, 06 Dec 2010 23:06:19 +0100
+
 @prefix@-@pkg@ (0.2) unstable; urgency=low
 
   * install a wpad.conf file for automatic proxy detection.
