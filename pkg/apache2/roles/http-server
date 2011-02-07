@@ -3,5 +3,5 @@
 add_to_list('ports', 80)
 check_service_by_pidfile('apache2', '/var/run/apache2.pid')
 
-if get_var('httpproxy'):
-    files_for_service('apache2', '/var/www/proxy/wpad.dat', '/etc/apache2/conf.d/wpad.conf')
+#if get_var('httpproxy'):
+#    files_for_service('apache2', '/var/www/proxy/wpad.dat', '/etc/apache2/sites-enabled/wpad.conf')
