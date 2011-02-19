@@ -1,3 +1,9 @@
+@prefix@-@pkg@ (0.2) unstable; urgency=low
+
+  * don't hardcode db settings
+
+ -- Frederic Lepied <fred@lepied.com>  Sat, 19 Feb 2011 14:52:30 +0100
+
 @prefix@-@pkg@ (0.1) unstable; urgency=low
 
   * first version
