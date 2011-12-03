@@ -1,8 +1,14 @@
 auto lo
 iface lo inet loopback
 
-auto {{ interface }}
-iface {{ interface }} inet static
-     address {{ ipv4 }}
-     gateway {{ router }}
-     netmask 255.255.255.0
+#auto {{ interface }}
+#iface {{ interface }} inet static
+
+auto br0
+iface br0 inet static
+   bridge_ports {{ interface }}
+   bridge_fd 0
+   address {{ ipv4 }}
+   gateway {{ router }}
+   netmask 255.255.255.0
+
