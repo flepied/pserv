@@ -1,4 +1,10 @@
 # -*- python -*-
 
-files_for_service('dhcp3-server', '/etc/dhcp3/dhcpd.conf')
-check_service_by_pidfile('dhcp3-server', '/var/run/dhcp3-server/dhcpd.pid')
+if get_var('oscode') == 'squeeze':
+    service = 'isc-dhcp-server'
+    files_for_service(service, '/etc/dhcp/dhcpd.conf')
+    check_service_by_pidfile(service, '/var/run/dhcpd.pid')
+else:
+    service = 'dhcp3-server'
+    files_for_service(service, '/etc/dhcp3/dhcpd.conf')
+    check_service_by_pidfile(service, '/var/run/dhcp3-server/dhcpd.pid')
